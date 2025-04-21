@@ -1,6 +1,6 @@
 import express from "express";
 //import negotiate from "express-negotiate";
-import mysql from "mysql";
+import mysql from "mysql2";
 import dotenv from "dotenv";
 import cors from "cors";
 
@@ -15,7 +15,6 @@ app.use(cors({
   }
 ))
 dotenv.config({path:'.env'});
-
 
 const db = mysql.createConnection({
   host : process.env.DB_HOST,
