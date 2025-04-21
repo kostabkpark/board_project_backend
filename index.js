@@ -78,22 +78,23 @@ app.get("/api/boards/:id", (req, res) => {
     });
 });
 
-// app.post("/api/boards", (req, res) => {
-//   const { title, contents, writer, passwd } = req.body;
-//   const sql = "insert into board_table (title, writer, password, contents) values (?,?,?,?)";
-//   db.query(sql, [title, writer, passwd, contents], (err, results) => {
-//     if(err) console.log(err);
-//     else { 
-//       const sql1 = "select * from board_table where id = ?";
-//       db.query(sql1, [results.insertId], (err1, results1) => {
-//         if(err1) console.log(err1);
-//         else {
-//           res.statusCode = 201;
-//           res.send(results1[0]);
-//         }
-//       });
-//     }
-// });
+app.post("/api/boards", (req, res) => {
+  const { title, contents, writer, passwd } = req.body;
+  const sql = "insert into board_table (title, writer, password, contents) values (?,?,?,?)";
+  db.query(sql, [title, writer, passwd, contents], (err, results) => {
+    if(err) console.log(err);
+    else { 
+      const sql1 = "select * from board_table where id = ?";
+      db.query(sql1, [results.insertId], (err1, results1) => {
+        if(err1) console.log(err1);
+        else {
+          res.statusCode = 201;
+          res.send(results1[0]);
+        }
+      });
+    }
+  })
+});
 
 app.put("/api/boards/:id", (req, res) => {
   const id = req.params.id;
