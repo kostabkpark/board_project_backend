@@ -2,12 +2,18 @@ import express from "express";
 //import negotiate from "express-negotiate";
 import mysql from "mysql";
 import dotenv from "dotenv";
+import cors from "cors";
 
 const app = express();
-const port = 3000;
+const port = 5000;
 const host = "127.0.0.1";
 
 app.use(express.json());
+app.use(cors({
+  origin : "http://localhost:3000",
+  credentials : true,
+  }
+))
 dotenv.config({path:'.env'});
 
 
@@ -80,7 +86,7 @@ app.get("/api/boards/:id", (req, res) => {
 
 app.post("/api/boards", (req, res) => {
   const { title, contents, writer, passwd } = req.body;
-  const sql = "insert into board_table (title, writer, password, contents) values (?,?,?,?)";
+  const sql = "insert into board_table (title, writer, passwd, contents) values (?,?,?,?)";
   db.query(sql, [title, writer, passwd, contents], (err, results) => {
     if(err) console.log(err);
     else { 
@@ -103,6 +109,7 @@ app.put("/api/boards/:id", (req, res) => {
   res.send(`${id} 글 수정중`);
 });
 
+// 개인숙제 : 완성
 app.patch("/api/boards/:id", (req, res) => {
   const id = req.params.id;
   console.log("글 조회수 증가");
